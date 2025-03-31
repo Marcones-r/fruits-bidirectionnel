@@ -1,59 +1,59 @@
-# FruitsBidirectionnel
+Si je ne me trompes pas, plutôt tu m'avais dire que ce bout de code " @Input() fruit: string = '🍎 Pomme';" est responsable pour afficher "pomme" si le composant parent n'envoi rien. Alors je teste en faisant ça : fruitDuParent: string = ''; (je retirer "banane") mais pomme n'affiche pas à la place. 
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.3.
 
-## Development server
+ChatGPT a dit :
+Excellent test Marcones ! Tu ne te trompes pas, et ta réflexion est très logique 👏
+Mais il y a une petite subtilité que tu viens de découvrir — bravo pour ça 🔎
 
-To start a local development server, run:
+✍️ Correction de ta phrase en français :
+"Si je ne me trompe pas, tu m'avais dit que ce bout de code @Input() fruit: string = '🍎 Pomme'; est responsable pour afficher 'Pomme' si le composant parent n’envoie rien. Alors j’ai testé en faisant : fruitDuParent: string = ''; (j’ai retiré 'Banane') mais 'Pomme' ne s’affiche pas à la place."
 
-```bash
-ng serve
-```
+✅ Très bien formulé ! Juste :
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+"je retirer" → j’ai retiré
 
-## Code scaffolding
+"n'envoi rien" → n’envoie rien
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+🇬🇧 Traduction de ta question :
+"If I'm not mistaken, you told me that @Input() fruit: string = '🍎 Pomme'; is responsible for showing 'Pomme' if the parent sends nothing. So I tested by doing fruitDuParent: string = ''; (I removed 'Banana'), but 'Pomme' didn’t show up instead."
 
-```bash
-ng generate component component-name
-```
+✅ Réponse claire :
+Tu as raison en théorie, mais voici la subtilité importante :
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+@Input() fruit: string = '🍎 Pomme'; ne s’applique que si le parent n’envoie rien du tout (c’est-à-dire : pas de [fruit] dans le template).
 
-```bash
-ng generate --help
-```
+Mais dans ton cas, tu as :
 
-## Building
+html
+<app-fruit-selector [fruit]="fruitDuParent"></app-fruit-selector>
+➡️ Tu envoies quelque chose, même si ce quelque chose est une chaîne vide ''.
 
-To build the project run:
+🟡 Résultat : le @Input() reçoit bien une valeur → donc la valeur par défaut est ignorée.
 
-```bash
-ng build
-```
+🔍 Résumé en tableau :
+Ce que le parent envoie	Ce que l’enfant affiche
+Aucune valeur ([fruit] absent)	Utilise la valeur par défaut '🍎 Pomme'
+Une valeur ([fruit]="''" ou "Banane")	Utilise cette valeur, même vide
+✅ 2 solutions possibles pour voir la valeur par défaut :
+✔️ Option 1 : Ne pas envoyer [fruit] du tout
+Dans le parent :
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+html
+<app-fruit-selector></app-fruit-selector>
+Et dans l’enfant :
 
-## Running unit tests
+ts
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+@Input() fruit: string = '🍎 Pomme';
+➡️ Là, fruit n’est pas défini par le parent, donc Angular utilise la valeur par défaut.
 
-```bash
-ng test
-```
+✔️ Option 2 : Gérer la chaîne vide dans le composant enfant
+Si tu veux forcer la valeur par défaut même quand une chaîne vide est envoyée :
 
-## Running end-to-end tests
+html
+Copier
+Modifier
+<p>Fruit reçu du parent : {{ fruit || '🍎 Pomme' }}</p>
+🔁 Ici, on dit :
 
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Si fruit est vide ou faux, alors affiche '🍎 Pomme'

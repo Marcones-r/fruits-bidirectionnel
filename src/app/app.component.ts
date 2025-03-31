@@ -16,11 +16,12 @@ import { FruitSelectorComponent } from './fruit-selector/fruit-selector.componen
   template: `
     <h2>Exemple avec &#64;Input et &#64;Output</h2>
 
-    <!-- Composant enfant avec liaison de propriété (Input) et écoute d’événement (Output) -->
+    <!-- Composant enfant avec liaison de propriété (Input) et écoute d’événement (Output). Autrement dire c'est ici qui les "échages  entre parent et enfant ser réalise" -->
     <app-fruit-selector 
     
       [fruit]="fruitDuParent"               
-      (fruitAdded)="ajouterAuPanier($event)"><!-- ([fruit]="fruitDuParent" ) Envoie la variable fruitDuParent au composant enfant --> <!-- ((fruitAdded)="ajouterAuPanier($event)) Récupère l’événement personnalisé fruitAdded -->
+      (fruitAdded)="ajouterAuPanier($event)"><!-- ([fruit]="fruitDuParent" ) Envoie la variable fruitDuParent au composant enfant --> 
+      <!-- ((fruitAdded)="ajouterAuPanier($event)) Récupère l’événement personnalisé fruitAdded d'enfant pour envoyer au parent-->
     </app-fruit-selector>
 
     <h3>Fruits dans le panier :</h3>
